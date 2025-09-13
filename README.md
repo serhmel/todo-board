@@ -23,3 +23,6 @@ A simple **ToDo Board** application built with **React**, **TypeScript**, and **
 - React DnD (Drag & Drop)
 - CSS Modules
 - Mock API (https://mockapi.io)
+
+### [Demo](https://serhmel.github.io/todo-board)
+
