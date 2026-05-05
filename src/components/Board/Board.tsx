@@ -13,6 +13,9 @@ const columns: { title: string; status: TodoStatus; icon: React.ReactNode }[] = 
   { title: 'Done', status: 'done', icon: <DoneIcon /> },
 ]
 
+const isTodoStatus = (status: string): status is TodoStatus =>
+    status === 'todo' || status === 'doing' || status === 'done'
+
 const Board: React.FC = () => {
   const { data: todos = [], isLoading, isError } = useGetTodosQuery()
   const [updateTodo] = useUpdateTodoMutation()
@@ -21,7 +24,14 @@ const Board: React.FC = () => {
   const todosByStatus = useMemo(() => {
     const map: Record<TodoStatus, Todo[]> = { todo: [], doing: [], done: [] }
 
-    todos.forEach((t) => map[t.status].push(t))
+    for (const todo of todos) {
+      if (isTodoStatus(todo.status)) {
+        map[todo.status].push(todo)
+      } else {
+        // optional: логування для дебагу API
+        console.warn('Unknown status:', todo.status, todo)
+      }
+    }
 
     return map
   }, [todos])
